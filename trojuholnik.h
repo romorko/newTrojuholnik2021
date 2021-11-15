@@ -33,4 +33,5 @@ public:
 };
 
 
+
 #endif //TROJUHOLNIK_TROJUHOLNIK_H

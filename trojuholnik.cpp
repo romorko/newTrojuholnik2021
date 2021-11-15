@@ -17,27 +17,27 @@ Bod Bod::getCenter(const Bod &other) const
 
 Bod Bod::operator+(const Bod &other) const
 {
-    return Bod(x+other.x,y+other.y);
+    return {x+other.x,y+other.y};
 }
 
 Bod Bod::operator-(const Bod &other) const
 {
-    return Bod(x-other.x,y-other.y);
+    return {x-other.x,y-other.y};
 }
 
 Bod Bod::operator/(float k) const
 {
-    return Bod(x/k,y/k);
+    return {x/k,y/k};
 }
 
 Bod Bod::operator*(float k) const
 {
-    return Bod(x*k,y*k);
+    return {x*k,y*k};
 }
 
 Bod operator*(float k, const Bod &other)
 {
-    return k*other;
+    return other*k;
 }
 
 std::ostream &operator<<(std::ostream &os, const Bod &other)
@@ -58,20 +58,20 @@ Bod::operator float() const
 
 Bod *Bod::generujPoleBodov(int pocetBodov)
 {
-    srand(time(NULL));
+    srand(time(nullptr));
     Bod *poleBodov;
     try
     {
         poleBodov= new Bod[pocetBodov];
         for(int i=0;i<pocetBodov;++i)
         {
-            (poleBodov+i)->x=rand()%50;
-            (poleBodov+i)->y=rand()%50;
+            (poleBodov+i)->x=(float)(rand()%50);
+            (poleBodov+i)->y=(float)(rand()%50);
         }
     }
     catch (const std::bad_alloc & ex)
     {
-        std::cout<<"Chbna alokacia pamate";
+        std::cout<<"Chybna alokacia pamate";
         return nullptr;
     }
     return poleBodov;
