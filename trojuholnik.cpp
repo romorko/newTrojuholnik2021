@@ -4,6 +4,7 @@
 #include "inout.h"
 #include "trojuholnik.h"
 #include <cmath>
+#include <random>
 
 float Bod::getDistance(const Bod &other) const
 {
@@ -102,4 +103,18 @@ bool Bod::operator>(const Bod &other)
 {
     return (float)(*this)>(float)(other);
 }
+int Bod::generujInt(int min, int max)
+{
+    std::random_device rd; // ziska trandom cislo z hardveru pocitaca
+    std::mt19937 eng(rd()); // "osoli" generator
+    std::uniform_int_distribution<> distr(min, max); // definuje interval z ktoreho sa generuju cisla
+    return distr(eng); //generuje cislo
+}
 
+float Bod::generujFloat(float min, float max)
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis(min,max);
+    return dis(gen) ;
+}
