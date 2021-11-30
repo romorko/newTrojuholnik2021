@@ -3,6 +3,12 @@
 int main()
 {
     using namespace inout;
+    Priamka priamka1= Priamka({1,1},{2,2});
+    Priamka priamka2=  Priamka({3,3},{8,8});
+    //cout<<priamka1.getUhol(priamka2,'s');
+    cout<<VR(priamka1)<<VR(priamka2);
+    cout<<(priamka1==priamka2);
+    //cout<<*((PR *)(priamky[0]))<<(*priamky[1]);
 /*    const int pocet = 50;
     Bod *mojePole =Bod::generujPoleBodov(pocet);
     Bod::vypisPoleBodov(pocet,mojePole);
@@ -10,11 +16,6 @@ int main()
     cout<<"Utriedene:"<<std::endl;
     Bod::vypisPoleBodov(pocet,mojePole);
     delete [] mojePole;*/
-    Priamka AB({1,2},{3,4});
-    Priamka CD(Bod(4,6),Bod(6,10));
-    PR EF({1,2},{6,4});
-    PR GH(CD);
-    cout<<GH;
-    cout<<EF;
+
     return 0;
 }
