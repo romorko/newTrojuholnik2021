@@ -3,6 +3,7 @@
 //
 #include "inout.h"
 #include "trojuholnik.h"
+#include <cstring>
 #include <cmath>
 #include <random>
 
@@ -168,7 +169,7 @@ float Priamka::getUhol(const Priamka &other, char vrat) const
     Vektor smerovy1 = getSmerovy();
     Vektor smerovy2 = other.getSmerovy();
     float uhol = std::acos((smerovy1 * smerovy2) / (smerovy1.getDistance() * smerovy2.getDistance()));
-    return vrat == 'r' ? (float)uhol : (float)(180 / 3.14159265358) * uhol;
+    return vrat == 'r' ? (float) uhol : (float) (180 / 3.14159265358) * uhol;
 }
 
 bool Priamka::operator==(const Priamka &other) const
@@ -176,7 +177,7 @@ bool Priamka::operator==(const Priamka &other) const
     return ((jeRovnobezna(other)) && (leziNaPriamke(other.Y)));
 }
 
-bool Priamka::leziNaPriamke(const Bod & other) const
+bool Priamka::leziNaPriamke(const Bod &other) const
 {
     VR vPriamka(*this);
     return vPriamka[0] * other.getX() + vPriamka[1] * other.getY() + vPriamka[2] == 0;
@@ -185,6 +186,27 @@ bool Priamka::leziNaPriamke(const Bod & other) const
 bool Priamka::jeRovnobezna(const Priamka &other) const
 {
     return getSmerovy() * other.getNormalovy() == 0;
+}
+
+Priamka::Priesecnik Priamka::getPoloha(const Priamka &other) const
+{
+    if((*this).jeRovnobezna(other))
+    {
+        return {{0,0},"rovnobezna"};
+    }
+    else if((*this)==other)
+    {
+        return {{0,0},"totozna"};
+    }
+    else
+    {
+        VR prva(*this);
+        VR druha(other);
+        float D = prva[0] * druha[1] - prva[1] * druha[0];
+        float D1 = -prva[2] * druha[1] - prva[1] * druha[2] * (-1);
+        float D2 = -prva[0] * druha[2] - druha[0] * prva[2] * -1;
+        return Priamka::Priesecnik {{D1/D,D2/D},"roznobezne"};
+    }
 }
 
 std::ostream &operator<<(std::ostream &os, const PR &other)
@@ -255,4 +277,10 @@ std::ostream &operator<<(std::ostream &os, const VR &other)
 Vektor VR::getNormalovy() const
 {
     return {(*this)[0], (*this)[1]};
+}
+
+Priamka::Priesecnik::Priesecnik(const Bod &R, const char *msg) : P(R)
+{
+    std::strncpy(popis, msg, 10);
+    popis[10] = '\0';
 }

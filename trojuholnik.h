@@ -43,6 +43,18 @@ using Vektor = Bod; //aby sme mohli pouzivat vektor namiesto bodu vtedy, ked to 
 class Priamka
 {
 protected:
+    class Priesecnik
+    {
+    private:
+        Bod P;
+        char popis[11];
+    public:
+        Priesecnik():P({0,0}),popis(" "){};
+        Priesecnik(const Bod &R,const char * msg);
+        Bod getBodPriesecnika()const;
+        char * getpopisPriesecnika() const;
+
+    };
     Bod X;
     Bod Y;
 public:
@@ -58,6 +70,7 @@ public:
     virtual Vektor getSmerovy() const;
     virtual Vektor getNormalovy() const;
     Priamka getOsStrany() const;
+    Priesecnik getPoloha(const Priamka & other) const;
     Priamka getOsUhla(const Priamka & other)const;
     float getUhol(const Priamka & other,char vrat='s') const; //vrati velkost uhla priamok bud v stupnoch(s) alebo radianoch (r)
 };
@@ -75,8 +88,6 @@ public:
     friend std::ostream & operator<<(std::ostream & os,const PR & other);
     float * getKoeficienty();  //vrati pole koeficientov
     virtual Vektor getSmerovy()  const override;
-    bool operator==(const PR & other) const;
-    bool jeRovnobezna(const PR & other) const;
     void setKoeficienty(); //nastavi koeficienty v parametrickej rovnici na spravne hodnoty
 };
 
@@ -93,8 +104,6 @@ public:
     friend std::ostream & operator<<(std::ostream & os,const VR & other);
     float * getKoeficienty();  //vrati pole koeficientov
     virtual Vektor getNormalovy() const override;
-    bool operator==(const VR & other) const;
-    bool jeRovnobezna(const VR & other) const;
     void setKoeficienty(); //nastavi koeficienty vo vseobecnej rovnici na spravne hodnoty
 };
 
