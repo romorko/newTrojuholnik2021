@@ -43,6 +43,11 @@ using Vektor = Bod; //aby sme mohli pouzivat vektor namiesto bodu vtedy, ked to 
 class Priamka
 {
 protected:
+    Bod X;
+    Bod Y;
+
+public:
+
     class Priesecnik
     {
     private:
@@ -53,11 +58,9 @@ protected:
         Priesecnik(const Bod &R,const char * msg);
         Bod getBodPriesecnika()const;
         char * getpopisPriesecnika() const;
-
+        friend std::ostream & operator<<(std::ostream & os,const Priesecnik  &other);
     };
-    Bod X;
-    Bod Y;
-public:
+
     Priamka(){};
     explicit Priamka(Bod A):X(A),Y(A){};
     Priamka(Bod A, Bod B):X(A),Y(B){};

@@ -44,7 +44,7 @@ Bod operator*(float k, const Bod &other)
 
 std::ostream &operator<<(std::ostream &os, const Bod &other)
 {
-    os << "[ " << std::setprecision(4) << other.x << "," << other.y << " ]";
+    os <<std::noshowpos <<"[ " << std::setprecision(4) << other.x << "," << other.y << " ]";
     return os;
 }
 
@@ -190,13 +190,13 @@ bool Priamka::jeRovnobezna(const Priamka &other) const
 
 Priamka::Priesecnik Priamka::getPoloha(const Priamka &other) const
 {
-    if((*this).jeRovnobezna(other))
+    if((*this)==other)
     {
-        return {{0,0},"rovnobezna"};
+        return {{0,0},"totozne"};
     }
-    else if((*this)==other)
+    else if((*this).jeRovnobezna(other))
     {
-        return {{0,0},"totozna"};
+        return {{0,0},"rovnobezne"};
     }
     else
     {
@@ -283,4 +283,14 @@ Priamka::Priesecnik::Priesecnik(const Bod &R, const char *msg) : P(R)
 {
     std::strncpy(popis, msg, 10);
     popis[10] = '\0';
+}
+
+std::ostream &operator<<(std::ostream &os, const Priamka::Priesecnik &other)
+{
+    os<<"Priamky su "<<other.popis;
+    if(std::strcmp(other.popis,"roznobezne")==0)
+    {
+        os<<" a ich priesecnik je "<<other.P;
+    }
+    return os;
 }
