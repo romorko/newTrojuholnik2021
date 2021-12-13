@@ -30,6 +30,7 @@ public:
     //getery a setery
     float getX() const{return x;}
     float getY() const{return y;}
+    Bod getJednotkovy() const;
     //staticka metoda ktora vygeneruje pole bodov zadaneho poctu a utriedi ho podla vzdialenosti bodu od pociatku
     static Bod * generujPoleBodov(int pocetBodov);
     static void vypisPoleBodov(int pocetBodov,Bod *poleBodov);
@@ -56,7 +57,7 @@ public:
     public:
         Priesecnik():P({0,0}),popis(" "){};
         Priesecnik(const Bod &R,const char * msg);
-        Bod getBodPriesecnika()const;
+        Bod getBodPriesecnika()const{return P;} ;
         char * getpopisPriesecnika() const;
         friend std::ostream & operator<<(std::ostream & os,const Priesecnik  &other);
     };
@@ -90,7 +91,7 @@ public:
     const float & operator [](int index) const {return koeficienty[index];} //pretazeny operator [] pre konstanty pristup
     friend std::ostream & operator<<(std::ostream & os,const PR & other);
     float * getKoeficienty();  //vrati pole koeficientov
-    virtual Vektor getSmerovy()  const override;
+    Vektor getSmerovy()  const override;
     void setKoeficienty(); //nastavi koeficienty v parametrickej rovnici na spravne hodnoty
 };
 
@@ -101,12 +102,14 @@ private:
 public:
     VR():koeficienty{0,0,0}{};
     VR(Bod A, Bod B);  //vseobecna priamka urcena dvoma bodmi
+    VR(float a,float b,float c);
+    VR(float pole[]){koeficienty[0]=pole[0];koeficienty[1]=pole[1],koeficienty[2]=pole[2];};
     explicit VR(const Priamka & P); //vyrobi z objektu priamka vseobecnu rovnicu
     float &operator [](int index) {return koeficienty[index];} //pretazeny operator [] pre nekonstanty pristup
     const float & operator [](int index) const {return koeficienty[index];} //pretazeny operator [] pre konstanty pristup
     friend std::ostream & operator<<(std::ostream & os,const VR & other);
     float * getKoeficienty();  //vrati pole koeficientov
-    virtual Vektor getNormalovy() const override;
+    Vektor getNormalovy() const override;
     void setKoeficienty(); //nastavi koeficienty vo vseobecnej rovnici na spravne hodnoty
 };
 

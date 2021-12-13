@@ -128,6 +128,12 @@ float Bod::operator*(const Bod &other) const
     return x * other.x + y * other.y;
 }
 
+Bod Bod::getJednotkovy() const
+{
+    std::cout<<this->getDistance()<<std::endl;
+    return  {this->x/this->getDistance(),this->y/this->getDistance()};
+}
+
 std::ostream &operator<<(std::ostream &os, const Priamka &other)
 {
     os << "Priamka: " << other.X << " " << other.Y << std::endl;
@@ -168,8 +174,12 @@ float Priamka::getUhol(const Priamka &other, char vrat) const
 {
     Vektor smerovy1 = getSmerovy();
     Vektor smerovy2 = other.getSmerovy();
+    if (this->jeRovnobezna(other))
+    {
+        return 0;
+    }
     float uhol = std::acos((smerovy1 * smerovy2) / (smerovy1.getDistance() * smerovy2.getDistance()));
-    return vrat == 'r' ? (float) uhol : (float) (180 / 3.14159265358) * uhol;
+    return vrat == 'r' ? static_cast<float>(uhol) : static_cast<float>((180 / 3.14159265358) * uhol);
 }
 
 bool Priamka::operator==(const Priamka &other) const
@@ -279,6 +289,18 @@ Vektor VR::getNormalovy() const
     return {(*this)[0], (*this)[1]};
 }
 
+VR::VR(float a, float b, float c):Priamka()
+{
+    if(b!=0)
+    {
+        X = Bod(0,-c/b);
+        Y = Bod(1,(-c-a)/b);
+        koeficienty[0]=a;
+        koeficienty[1]=b;
+        koeficienty[2]=c;
+    }
+}
+
 Priamka::Priesecnik::Priesecnik(const Bod &R, const char *msg) : P(R)
 {
     std::strncpy(popis, msg, 10);
@@ -293,4 +315,16 @@ std::ostream &operator<<(std::ostream &os, const Priamka::Priesecnik &other)
         os<<" a ich priesecnik je "<<other.P;
     }
     return os;
+}
+
+Priamka Priamka::getOsUhla(const Priamka &other) const
+{
+    Bod prvyBod = this->getPoloha(other).getBodPriesecnika();
+    Vektor vektor1 = this->getSmerovy().getJednotkovy();
+    std::cout<<"Smerovy "<<this->getSmerovy()<<" jednotkovy"<<vektor1<<std::endl;
+    Vektor vektor2 = other.getSmerovy().getJednotkovy();
+    std::cout<<"Smerovy "<<other.getSmerovy()<<" jednotkovy"<<vektor2<<std::endl;
+    Bod druhyBod= vektor1+vektor2+prvyBod;
+    std::cout<<druhyBod<<std::endl;
+    return {prvyBod,druhyBod};
 }
