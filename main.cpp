@@ -3,8 +3,8 @@
 int main()
 {
     using namespace inout;
-    Priamka priamka1= Priamka({2,2},{-6,1});
-    Priamka priamka2 = Priamka ({2,2},{-2,7});
+    Priamka priamka1= Priamka({4,2},{-6,2});
+    Priamka priamka2 = Priamka ({4,2},{-1,10.66});
     cout<<priamka1.getUhol(priamka2,'s')<<std::endl;
     //cout<<priamka1.getPoloha(priamka2);
     cout<<VR(priamka1.getOsUhla(priamka2));

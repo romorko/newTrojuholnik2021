@@ -130,7 +130,7 @@ float Bod::operator*(const Bod &other) const
 
 Bod Bod::getJednotkovy() const
 {
-    std::cout<<this->getDistance()<<std::endl;
+    //std::cout<<this->getDistance()<<std::endl;
     return  {this->x/this->getDistance(),this->y/this->getDistance()};
 }
 
@@ -321,10 +321,10 @@ Priamka Priamka::getOsUhla(const Priamka &other) const
 {
     Bod prvyBod = this->getPoloha(other).getBodPriesecnika();
     Vektor vektor1 = this->getSmerovy().getJednotkovy();
-    std::cout<<"Smerovy "<<this->getSmerovy()<<" jednotkovy"<<vektor1<<std::endl;
+    //std::cout<<"Smerovy "<<this->getSmerovy()<<" jednotkovy"<<vektor1<<std::endl;
     Vektor vektor2 = other.getSmerovy().getJednotkovy();
-    std::cout<<"Smerovy "<<other.getSmerovy()<<" jednotkovy"<<vektor2<<std::endl;
+    //std::cout<<"Smerovy "<<other.getSmerovy()<<" jednotkovy"<<vektor2<<std::endl;
     Bod druhyBod= vektor1+vektor2+prvyBod;
-    std::cout<<druhyBod<<std::endl;
+    //std::cout<<druhyBod<<std::endl;
     return {prvyBod,druhyBod};
 }
