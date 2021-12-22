@@ -147,6 +147,30 @@ std::ostream &operator<<(std::ostream &os, const Priamka &other)
     return os;
 }
 
+
+Priamka::Priamka(Bod A, Bod B):X(A),Y(B)
+{
+    try
+    {
+        if(A==B)
+        {
+            throw "Dva rovnake body neurcuju priamku! Vytvorila sa implicitna priamka.\n";
+        }
+    }
+    catch (const char * msg)
+    {
+        std::cout<<msg;
+        X={0,0};
+        Y={1,0};
+    }
+}
+
+Priamka::Priamka(Bod A):X(A)
+{
+    std::cout<<"Jeden bod neurcuje priamku. Bola vytvorena implicitna priamka iduca tymto bodom rovnobezna s osou x\n";
+    Y={A.getX()+1,A.getY()};
+}
+
 Bod Priamka::getStred() const
 {
     return X.getCenter(Y);
@@ -382,28 +406,4 @@ Priamka Priamka::getOsUhla(const Priamka &other) const
     return {prvyBod, druhyBod};
 }
 
-Priamka::Priamka(Bod A, Bod B)
-{
-    try
-    {
-        if(A==B)
-        {
-            throw "Dva rovnake body neurcuju priamku! Vytvorila sa implicitna priamka.\n";
-        }
-        X=A;
-        Y=B;
-    }
-    catch (const char * msg)
-    {
-        std::cout<<msg;
-        X={0,0};
-        Y={1,0};
-    }
-}
 
-Priamka::Priamka(Bod A)
-{
-    std::cout<<"Jeden bod neurcuje priamku. Bola vytvorena implicitna priamka iduca tymto bodom rovnobezna s osou x\n";
-    X=A;
-    Y={A.getX()+1,A.getY()};
-}

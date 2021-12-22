@@ -104,7 +104,7 @@ private:
 public:
     VR();
     VR(Bod A, Bod B);  //vseobecna priamka urcena dvoma bodmi
-    VR(float a,float b,float c);
+    VR(float a,float b,float c);//priamka je zadana koeficientami a,b,c jej VR, treba dopocitat body X aj Y
     explicit VR(const Priamka & P); //vyrobi z objektu priamka vseobecnu rovnicu
     float &operator [](int index) {return koeficienty[index];} //pretazeny operator [] pre nekonstanty pristup
     const float & operator [](int index) const {return koeficienty[index];} //pretazeny operator [] pre konstanty pristup
