@@ -7,6 +7,8 @@
 #include <cmath>
 #include <random>
 
+int VR::p = -10;
+
 float Bod::getDistance(const Bod &other) const
 {
     return std::sqrt((x - other.x) * (x - other.x) + (y - other.y) * (y - other.y));
@@ -44,7 +46,7 @@ Bod operator*(float k, const Bod &other)
 
 std::ostream &operator<<(std::ostream &os, const Bod &other)
 {
-    os <<std::noshowpos <<"[ " << std::setprecision(4) << other.x << "," << other.y << " ]";
+    os << std::noshowpos << "[ " << std::setprecision(4) << other.x << "," << other.y << " ]";
     return os;
 }
 
@@ -131,7 +133,12 @@ float Bod::operator*(const Bod &other) const
 Bod Bod::getJednotkovy() const
 {
     //std::cout<<this->getDistance()<<std::endl;
-    return  {this->x/this->getDistance(),this->y/this->getDistance()};
+    return {this->x / this->getDistance(), this->y / this->getDistance()};
+}
+
+bool Bod::operator==(const Bod &other)
+{
+    return (x==other.x && y==other.y);
 }
 
 std::ostream &operator<<(std::ostream &os, const Priamka &other)
@@ -200,22 +207,20 @@ bool Priamka::jeRovnobezna(const Priamka &other) const
 
 Priamka::Priesecnik Priamka::getPoloha(const Priamka &other) const
 {
-    if((*this)==other)
+    if ((*this) == other)
     {
-        return {{0,0},"totozne"};
-    }
-    else if((*this).jeRovnobezna(other))
+        return {{0, 0}, "totozne"};
+    } else if ((*this).jeRovnobezna(other))
     {
-        return {{0,0},"rovnobezne"};
-    }
-    else
+        return {{0, 0}, "rovnobezne"};
+    } else
     {
         VR prva(*this);
         VR druha(other);
         float D = prva[0] * druha[1] - prva[1] * druha[0];
         float D1 = -prva[2] * druha[1] - prva[1] * druha[2] * (-1);
         float D2 = -prva[0] * druha[2] - druha[0] * prva[2] * -1;
-        return Priamka::Priesecnik {{D1/D,D2/D},"roznobezne"};
+        return Priamka::Priesecnik{{D1 / D, D2 / D}, "roznobezne"};
     }
 }
 
@@ -266,6 +271,11 @@ void VR::setKoeficienty()
     koeficienty[2] = -(koeficienty[0] * X.getX() + koeficienty[1] * X.getY());
 }
 
+VR::VR():Priamka()
+{
+    setKoeficienty();
+}
+
 VR::VR(Bod A, Bod B) : Priamka(A, B)
 {
     setKoeficienty();
@@ -289,17 +299,60 @@ Vektor VR::getNormalovy() const
     return {(*this)[0], (*this)[1]};
 }
 
-VR::VR(float a, float b, float c):Priamka()
+VR::VR(float a, float b, float c) : Priamka()
 {
-    if(b!=0)
+    try
     {
-        X = Bod(0,-c/b);
-        Y = Bod(1,(-c-a)/b);
-        koeficienty[0]=a;
-        koeficienty[1]=b;
-        koeficienty[2]=c;
+        if (a == 0 && b==0)
+        {
+            throw ("Takato priamka neexistuje! Bola vytvorena implicitna priamka ktora je osou x");
+        }
+        X = vypocitajBod(a, b, c);
+        Y = vypocitajBod(a, b, c);
+        koeficienty[0] = a;
+        koeficienty[1] = b;
+        koeficienty[2] = c;
+    }
+    catch (const char * ex)
+    {
+        std::cout << ex;
+        koeficienty[0] = 0;
+        koeficienty[1] = 1;
+        koeficienty[2] = 0;
     }
 }
+
+Bod VR::vypocitajBod(float a, float b, float c) const
+{
+    ++p;
+    float intpart;
+    if (b != 0)
+    {
+        float vysledok = (-c - a * p) / b;
+        while (p < 10 && std::modf(vysledok, &intpart) != 0)
+        {
+            ++p;
+            //std::cout<<p<<" ";
+            vysledok = (-c - a * p) / b;
+        }
+        return Bod(p, vysledok);
+    } else
+    {
+        float vysledok = (-c - b * p) / a;
+        while (p < 10 && std::modf(vysledok, &intpart) != 0)
+        {
+            ++p;
+            vysledok = (-c - b * p) / a;;
+        }
+        return Bod(vysledok, p);
+    }
+}
+
+float *VR::getKoeficienty()
+{
+    return koeficienty;
+}
+
 
 Priamka::Priesecnik::Priesecnik(const Bod &R, const char *msg) : P(R)
 {
@@ -309,10 +362,10 @@ Priamka::Priesecnik::Priesecnik(const Bod &R, const char *msg) : P(R)
 
 std::ostream &operator<<(std::ostream &os, const Priamka::Priesecnik &other)
 {
-    os<<"Priamky su "<<other.popis;
-    if(std::strcmp(other.popis,"roznobezne")==0)
+    os << "Priamky su " << other.popis;
+    if (std::strcmp(other.popis, "roznobezne") == 0)
     {
-        os<<" a ich priesecnik je "<<other.P;
+        os << " a ich priesecnik je " << other.P;
     }
     return os;
 }
@@ -324,7 +377,33 @@ Priamka Priamka::getOsUhla(const Priamka &other) const
     //std::cout<<"Smerovy "<<this->getSmerovy()<<" jednotkovy"<<vektor1<<std::endl;
     Vektor vektor2 = other.getSmerovy().getJednotkovy();
     //std::cout<<"Smerovy "<<other.getSmerovy()<<" jednotkovy"<<vektor2<<std::endl;
-    Bod druhyBod= vektor1+vektor2+prvyBod;
+    Bod druhyBod = vektor1 + vektor2 + prvyBod;
     //std::cout<<druhyBod<<std::endl;
-    return {prvyBod,druhyBod};
+    return {prvyBod, druhyBod};
+}
+
+Priamka::Priamka(Bod A, Bod B)
+{
+    try
+    {
+        if(A==B)
+        {
+            throw "Dva rovnake body neurcuju priamku! Vytvorila sa implicitna priamka.\n";
+        }
+        X=A;
+        Y=B;
+    }
+    catch (const char * msg)
+    {
+        std::cout<<msg;
+        X={0,0};
+        Y={1,0};
+    }
+}
+
+Priamka::Priamka(Bod A)
+{
+    std::cout<<"Jeden bod neurcuje priamku. Bola vytvorena implicitna priamka iduca tymto bodom rovnobezna s osou x\n";
+    X=A;
+    Y={A.getX()+1,A.getY()};
 }

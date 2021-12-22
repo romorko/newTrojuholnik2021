@@ -23,6 +23,7 @@ public:
     float operator*(const Bod & other) const;//skalarny sucin vektorov
     bool operator<(const Bod & other);
     bool operator>(const Bod & other);
+    bool operator==(const Bod & other);
     Bod operator^(const Bod & other) const; //pretazeny operator strieska na vypocet stredu usecky
     explicit operator float() const;  //pretazeny operator konverzie na float, ktory vrati vzdialenost od [0,0]
     friend Bod operator*(float k, const Bod &other);
@@ -62,9 +63,9 @@ public:
         friend std::ostream & operator<<(std::ostream & os,const Priesecnik  &other);
     };
 
-    Priamka(){};
-    explicit Priamka(Bod A):X(A),Y(A){};
-    Priamka(Bod A, Bod B):X(A),Y(B){};
+    Priamka(){X ={0,0},Y ={1,0};}; //vytvorime implicitnu priamku, ktora je osou x
+    explicit Priamka(Bod A); //vytvorime implicitnu priamku iducu bodom A rovnobeznu s osou x
+    Priamka(Bod A, Bod B);
     friend std::ostream & operator<<(std::ostream &os, const Priamka & other);
     Bod getStred() const;
     float getDlzka() const;
@@ -99,18 +100,27 @@ class VR:public Priamka
 {
 private:
     float koeficienty[3]; //koeficienty a,b,c z rovnice ax+by+c=0
+    static int p;
 public:
-    VR():koeficienty{0,0,0}{};
+    VR();
     VR(Bod A, Bod B);  //vseobecna priamka urcena dvoma bodmi
     VR(float a,float b,float c);
-    VR(float pole[]){koeficienty[0]=pole[0];koeficienty[1]=pole[1],koeficienty[2]=pole[2];};
     explicit VR(const Priamka & P); //vyrobi z objektu priamka vseobecnu rovnicu
     float &operator [](int index) {return koeficienty[index];} //pretazeny operator [] pre nekonstanty pristup
     const float & operator [](int index) const {return koeficienty[index];} //pretazeny operator [] pre konstanty pristup
     friend std::ostream & operator<<(std::ostream & os,const VR & other);
     float * getKoeficienty();  //vrati pole koeficientov
     Vektor getNormalovy() const override;
-    void setKoeficienty(); //nastavi koeficienty vo vseobecnej rovnici na spravne hodnoty
+    void setKoeficienty(); //nastavi koeficienty vo vseobecnej rovnici na spravne hodnoty vypocitane podla bodov
+    Bod vypocitajBod(float a, float b,float c) const; //na zaklade zadanych koeficientov a.b.priamkyc vypocita body
+
+};
+
+
+class Trojuholnik
+{
+
+
 };
 
 #endif //TROJUHOLNIK_TROJUHOLNIK_H
