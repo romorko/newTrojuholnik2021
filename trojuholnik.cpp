@@ -286,6 +286,32 @@ Vektor PR::getSmerovy() const
     return {koeficienty[1], koeficienty[3]};
 }
 
+PR::PR():Priamka(),koeficienty{0,1,0,0}
+{
+
+}
+
+PR::PR(float a1, float s1, float a2, float s2):Priamka()
+{
+    try
+    {
+        if(s1==0 && s2==0)
+        {
+            throw "Smerovy vektor nesmie byt nulovy! Bola vytvorena implictna priamka ktora je osou x";
+        }
+        koeficienty[0]=a1;
+        koeficienty[1]=s1;
+        koeficienty[2]=a2;
+        koeficienty[3]=s2;
+    }
+    catch (const char * msg)
+    {
+        koeficienty[0]=0;
+        koeficienty[1]=1;
+        koeficienty[2]=0;
+        koeficienty[3]=0;
+    }
+}
 
 void VR::setKoeficienty()
 {

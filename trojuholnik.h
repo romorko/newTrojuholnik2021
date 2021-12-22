@@ -85,8 +85,9 @@ class PR: public Priamka
 private:
     float koeficienty[4]; //koeficienty a1,s1,a2,s2 v rovniciach:  x = a1 + s1*t   y= a2 + s2*t
 public:
-    PR():koeficienty{0,0,0,0}{};
+    PR(); //vytvorime implicitnu rovnicu ktora je osou x
     PR(Bod A, Bod B);  //parametricka priamka urcena dvoma bodmi
+    PR(float a1,float s1,float a2,float s2); //priamka je zadana koeficientami, treba dopocitat body
     explicit PR(const Priamka & P); //vyrobi z objektu priamka parametricku rovnicu
     float &operator [](int index) {return koeficienty[index];} //pretazeny operator [] pre nekonstanty pristup
     const float & operator [](int index) const {return koeficienty[index];} //pretazeny operator [] pre konstanty pristup
