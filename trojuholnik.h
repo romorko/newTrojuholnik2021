@@ -120,8 +120,24 @@ public:
 
 class Trojuholnik
 {
-
+private:
+    Bod A;
+    Bod B;
+    Bod C;
+public:
+    Trojuholnik(); //vytvori implicitny trojuholnik [-1,0],[1,0],[0,1]
+    Trojuholnik(Bod A1, Bod B1, Bod C1);//vytvori trojuholnik z troch bodov
+    Trojuholnik(Priamka a, Priamka b, Priamka c);//vytvori trojuholnik z troch priamok
+    bool existuje() const; //zisti, ci tri body A,B,C urcuju trojuholnik
 
 };
 
+class MsgError :public std::exception //trieda urcena pre vynimky, odvodena od standardnej triedy pre vynimky ktora je sucastou C++
+{
+private:
+    const char * msg;
+public:
+    MsgError(const char * sprava):msg(sprava){};
+    void getMsg() const {std::cout<<msg;};
+};
 #endif //TROJUHOLNIK_TROJUHOLNIK_H

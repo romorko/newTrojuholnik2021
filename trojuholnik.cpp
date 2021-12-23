@@ -154,12 +154,12 @@ Priamka::Priamka(Bod A, Bod B):X(A),Y(B)
     {
         if(A==B)
         {
-            throw "Dva rovnake body neurcuju priamku! Vytvorila sa implicitna priamka.\n";
+            throw MsgError("Dva rovnake body neurcuju priamku! Vytvorila sa implicitna priamka.\n");
         }
     }
-    catch (const char * msg)
+    catch (const MsgError & ex)
     {
-        std::cout<<msg;
+        ex.getMsg();
         X={0,0};
         Y={1,0};
     }
@@ -297,15 +297,16 @@ PR::PR(float a1, float s1, float a2, float s2):Priamka()
     {
         if(s1==0 && s2==0)
         {
-            throw "Smerovy vektor nesmie byt nulovy! Bola vytvorena implictna priamka ktora je osou x";
+            throw MsgError("Smerovy vektor nesmie byt nulovy! Bola vytvorena implictna priamka ktora je osou x");
         }
         koeficienty[0]=a1;
         koeficienty[1]=s1;
         koeficienty[2]=a2;
         koeficienty[3]=s2;
     }
-    catch (const char * msg)
+    catch (const MsgError & ex)
     {
+        ex.getMsg();
         koeficienty[0]=0;
         koeficienty[1]=1;
         koeficienty[2]=0;
@@ -355,7 +356,7 @@ VR::VR(float a, float b, float c) : Priamka()
     {
         if (a == 0 && b==0)
         {
-            throw ("Takato priamka neexistuje! Bola vytvorena implicitna priamka ktora je osou x");
+            throw MsgError("Takato priamka neexistuje! Bola vytvorena implicitna priamka ktora je osou x");
         }
         X = vypocitajBod(a, b, c);
         Y = vypocitajBod(a, b, c);
@@ -363,9 +364,9 @@ VR::VR(float a, float b, float c) : Priamka()
         koeficienty[1] = b;
         koeficienty[2] = c;
     }
-    catch (const char * ex)
+    catch (const MsgError & ex)
     {
-        std::cout << ex;
+        ex.getMsg();
         koeficienty[0] = 0;
         koeficienty[1] = 1;
         koeficienty[2] = 0;
