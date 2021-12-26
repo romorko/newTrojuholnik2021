@@ -3,7 +3,8 @@
 int main()
 {
     using namespace inout;
-    Priamka moja({1,2},{1,2});
+    //Priamka moja({1,2},{1,2});
+    Trojuholnik ABC({1,1},{2,2},{3,3});
         /*   Priamka priamka1= Priamka({4,2},{-6,2});
        Priamka priamka2 = Priamka ({4,2},{-1,10.66});
        cout<<priamka1.getUhol(priamka2,'s')<<std::endl;

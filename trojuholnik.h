@@ -125,7 +125,7 @@ private:
     Bod B;
     Bod C;
 public:
-    Trojuholnik(); //vytvori implicitny trojuholnik [-1,0],[1,0],[0,1]
+    Trojuholnik():A({-1,0}),B{1,0},C{0,1}{}; //vytvori implicitny trojuholnik [-1,0],[1,0],[0,1]
     Trojuholnik(Bod A1, Bod B1, Bod C1);//vytvori trojuholnik z troch bodov
     Trojuholnik(Priamka a, Priamka b, Priamka c);//vytvori trojuholnik z troch priamok
     bool existuje() const; //zisti, ci tri body A,B,C urcuju trojuholnik

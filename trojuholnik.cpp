@@ -433,4 +433,31 @@ Priamka Priamka::getOsUhla(const Priamka &other) const
     return {prvyBod, druhyBod};
 }
 
+Trojuholnik::Trojuholnik(Bod A1, Bod B1, Bod C1):A(A1),B(B1),C(C1)
+{
+    if(!existuje())
+    {
+        exit(1);
+    }
+}
+
+bool Trojuholnik::existuje() const
+{
+    float a=A.getDistance(B);
+    float b=A.getDistance(C);
+    float c=B.getDistance(C);
+    try
+    {
+        if(!((a+b>c)*(a+c>b)*(b+c>a)))
+        {
+            throw MsgError("Trojholnik sa neda zostrojit!");
+        }
+    }
+    catch (const MsgError & ex)
+    {
+        std::cout<<ex.what();
+        return false;
+    }
+    return true;
+}
 
