@@ -159,7 +159,7 @@ Priamka::Priamka(Bod A, Bod B):X(A),Y(B)
     }
     catch (const MsgError & ex)
     {
-        ex.getMsg();
+        std::cout<<ex.what();
         X={0,0};
         Y={1,0};
     }
@@ -306,7 +306,7 @@ PR::PR(float a1, float s1, float a2, float s2):Priamka()
     }
     catch (const MsgError & ex)
     {
-        ex.getMsg();
+        std::cout<<ex.what();
         koeficienty[0]=0;
         koeficienty[1]=1;
         koeficienty[2]=0;
@@ -366,7 +366,7 @@ VR::VR(float a, float b, float c) : Priamka()
     }
     catch (const MsgError & ex)
     {
-        ex.getMsg();
+        std::cout<<ex.what();
         koeficienty[0] = 0;
         koeficienty[1] = 1;
         koeficienty[2] = 0;

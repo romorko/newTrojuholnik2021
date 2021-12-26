@@ -3,11 +3,7 @@
 int main()
 {
     using namespace inout;
-    //VR moja(0,0,5);
-    VR moja;
-    cout<<moja;
-    PR moja1;
-    cout<<moja1;
+    Priamka moja({1,2},{1,2});
         /*   Priamka priamka1= Priamka({4,2},{-6,2});
        Priamka priamka2 = Priamka ({4,2},{-1,10.66});
        cout<<priamka1.getUhol(priamka2,'s')<<std::endl;

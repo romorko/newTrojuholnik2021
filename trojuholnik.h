@@ -93,7 +93,7 @@ public:
     const float & operator [](int index) const {return koeficienty[index];} //pretazeny operator [] pre konstanty pristup
     friend std::ostream & operator<<(std::ostream & os,const PR & other);
     float * getKoeficienty();  //vrati pole koeficientov
-    Vektor getSmerovy()  const override;
+    Vektor getSmerovy()  const override; //override indikuje, ze tato metoda musi prepisovat rodicovsku metodu
     void setKoeficienty(); //nastavi koeficienty v parametrickej rovnici na spravne hodnoty
 };
 
@@ -132,12 +132,14 @@ public:
 
 };
 
-class MsgError :public std::exception //trieda urcena pre vynimky, odvodena od standardnej triedy pre vynimky ktora je sucastou C++
+class MsgError :public std::exception //trieda urcena pre vynimky, odvodena od standardnej triedy pre vynimky "exception" ktora je sucastou C++
 {
 private:
     const char * msg;
 public:
-    MsgError(const char * sprava):msg(sprava){};
-    void getMsg() const {std::cout<<msg;};
+    explicit MsgError(const char * sprava):msg(sprava){};
+    const char * what() const noexcept override {return msg;}; //tato metoda je sucastou triedy vynimiek exceptions, staci ju prepisat a pouzit
+                                                                //noexcept znamena, ze samotna metoda nemoze vyvolat vynimku
+                                                                //override znamena, ze musi prepisat rodicovsku metodu z rodicovskej triedy exception
 };
 #endif //TROJUHOLNIK_TROJUHOLNIK_H
