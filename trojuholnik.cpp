@@ -458,6 +458,82 @@ bool Trojuholnik::existuje() const
         std::cout<<ex.what();
         return false;
     }
+    std::cout<<"Trojuholnik OK\n";
     return true;
 }
+
+float Trojuholnik::getVelkostStrany(char strana) const
+{
+    float velkost=-1;
+    if(strana=='a')
+    {
+        velkost =B.getDistance(C);
+    }
+    else if(strana=='b')
+    {
+        velkost=A.getDistance(C);
+    }
+    else if(strana=='c')
+    {
+        velkost= A.getDistance(B);
+    }
+    else
+    {
+        std::cout<<"Neznama strana!";
+    }
+    return velkost;
+}
+
+float Trojuholnik::getVelkostUhla(char uhol) const
+{
+    float velkost=-1;
+    if(uhol=='a')
+    {
+        Priamka AC(A,C);
+        Priamka AB(A,B);
+        velkost =AC.getUhol(AB);
+    }
+    else if(uhol=='b')
+    {
+        Priamka BA(B,A);
+        Priamka BC(B,C);
+        velkost =BA.getUhol(BC);
+    }
+    else if(uhol=='c')
+    {
+        Priamka CA(C,A);
+        Priamka CB(C,B);
+        velkost =CA.getUhol(CB);
+    }
+    else
+    {
+        std::cout<<"Neznamy uhol!";
+    }
+    return velkost;
+}
+
+float Trojuholnik::getObvod() const
+{
+    return getVelkostStrany('a')+ getVelkostStrany('b')+ getVelkostStrany('c');
+}
+
+float Trojuholnik::getObsah() const
+{
+    float s=getObvod()/2;
+    return std::sqrt(s*(s- getVelkostStrany('a'))*(s- getVelkostStrany('b'))*(s- getVelkostStrany('c')));
+}
+
+void Trojuholnik::vypisStrany() const
+{
+    using namespace inout;
+    cout<<setprecision(4)<<"a ="<<setw(5)<<getVelkostStrany('a')<<" b ="<<setw(5)<<getVelkostStrany('b')<<" c ="<<setw(5)<<getVelkostStrany('c')<<endl;
+}
+
+void Trojuholnik::vypisUhly() const
+{
+    using namespace inout;
+    cout<<setprecision(4)<<"alfa ="<<setw(5)<<getVelkostUhla('a')<<" beta ="<<setw(5)<<getVelkostUhla('b')<<" gama ="<<setw(5)<<getVelkostUhla('c')<<endl;
+}
+
+
 
