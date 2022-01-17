@@ -458,7 +458,7 @@ bool Trojuholnik::existuje() const
         std::cout<<ex.what();
         return false;
     }
-    std::cout<<"Trojuholnik OK\n";
+    std::cout<<"Trojuholnik "<<*this<<" OK"<<std::endl;
     return true;
 }
 
@@ -526,13 +526,19 @@ float Trojuholnik::getObsah() const
 void Trojuholnik::vypisStrany() const
 {
     using namespace inout;
-    cout<<setprecision(4)<<"a ="<<setw(5)<<getVelkostStrany('a')<<" b ="<<setw(5)<<getVelkostStrany('b')<<" c ="<<setw(5)<<getVelkostStrany('c')<<endl;
+    cout<<"Strany: "<<setprecision(4)<<"a ="<<setw(5)<<getVelkostStrany('a')<<" b ="<<setw(5)<<getVelkostStrany('b')<<" c ="<<setw(5)<<getVelkostStrany('c')<<endl;
 }
 
 void Trojuholnik::vypisUhly() const
 {
     using namespace inout;
-    cout<<setprecision(4)<<"alfa ="<<setw(5)<<getVelkostUhla('a')<<" beta ="<<setw(5)<<getVelkostUhla('b')<<" gama ="<<setw(5)<<getVelkostUhla('c')<<endl;
+    cout<<"Uhly(stupne):"<<setprecision(4)<<"alfa ="<<setw(5)<<getVelkostUhla('a')<<" beta ="<<setw(5)<<getVelkostUhla('b')<<" gama ="<<setw(5)<<getVelkostUhla('c')<<endl;
+}
+
+std::ostream &operator<<(std::ostream &os, const Trojuholnik &other)
+{
+    os<<"ABC:"<<other.A<<other.B<<other.C;
+    return os;
 }
 
 
