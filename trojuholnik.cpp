@@ -404,7 +404,6 @@ float *VR::getKoeficienty()
     return koeficienty;
 }
 
-
 Priamka::Priesecnik::Priesecnik(const Bod &R, const char *msg) : P(R)
 {
     std::strncpy(popis, msg, 10);
@@ -539,6 +538,48 @@ std::ostream &operator<<(std::ostream &os, const Trojuholnik &other)
 {
     os<<"ABC:"<<other.A<<other.B<<other.C;
     return os;
+}
+
+Priamka Trojuholnik::getVyska(char naStranu) const
+{
+    Vektor normalovy; //normalovy vektor strany je smerovy vektor vysky
+    Bod Prvy;
+    Bod Druhy;
+    if(naStranu=='a')
+    {
+        normalovy = Priamka(B,C).getNormalovy();
+        Prvy = A;
+        Druhy = A+normalovy;
+    }
+    else if(naStranu=='b')
+    {
+        normalovy = Priamka(A,C).getNormalovy();
+        Prvy = B;
+        Druhy = B+normalovy;
+    }
+    else if(naStranu=='c')
+    {
+        normalovy = Priamka(A,B).getNormalovy();
+        Prvy = C;
+        Druhy = C+normalovy;
+    }
+    else
+    {
+        std::cout<<"Neznama strana";
+        Prvy = Bod();
+        Druhy = Bod();
+    }
+    return {Prvy,Druhy};
+}
+
+Bod Trojuholnik::getOrtocentrum() const
+{
+    return getVyska('a').getPoloha(getVyska('b')).getBodPriesecnika();
+}
+
+Priamka Trojuholnik::getTaznica(char naStranu) const
+{
+    return Priamka();
 }
 
 

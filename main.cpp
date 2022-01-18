@@ -8,6 +8,7 @@ int main()
     cout<<setprecision(4)<<"Obvod: "<<ABC.getObvod()<<endl<<"Obsah: "<<ABC.getObsah()<<endl;
     ABC.vypisStrany();
     ABC.vypisUhly();
+    cout<<ABC.getOrtocentrum();
         /*   Priamka priamka1= Priamka({4,2},{-6,2});
        Priamka priamka2 = Priamka ({4,2},{-1,10.66});
        cout<<priamka1.getUhol(priamka2,'s')<<std::endl;

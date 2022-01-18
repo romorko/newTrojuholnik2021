@@ -106,6 +106,7 @@ public:
     VR();
     VR(Bod A, Bod B);  //vseobecna priamka urcena dvoma bodmi
     VR(float a,float b,float c);//priamka je zadana koeficientami a,b,c jej VR, treba dopocitat body X aj Y
+    VR(const Vektor & smer,const Bod & vrchol,char aky);
     explicit VR(const Priamka & P); //vyrobi z objektu priamka vseobecnu rovnicu
     float &operator [](int index) {return koeficienty[index];} //pretazeny operator [] pre nekonstanty pristup
     const float & operator [](int index) const {return koeficienty[index];} //pretazeny operator [] pre konstanty pristup
@@ -136,6 +137,9 @@ public:
     void vypisStrany() const; //vypise velkosti stran trojuholnika
     float getObsah() const;
     void vypisUhly() const;//vypise velkosti uhlov trojuholnika
+    Priamka getVyska(char naStranu='a') const;
+    Priamka getTaznica(char naStranu='a') const;
+    Bod getOrtocentrum() const;
 
 };
 
