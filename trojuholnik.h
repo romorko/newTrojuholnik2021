@@ -139,8 +139,10 @@ public:
     void vypisUhly() const;//vypise velkosti uhlov trojuholnika
     Priamka getVyska(char naStranu='a') const;
     Priamka getTaznica(char naStranu='a') const;
+    Priamka getOsStrany(char ktoraStrana='a') const;
     Bod getOrtocentrum() const;
     Bod getTazisko() const;
+    void vypisOpisanaKruznica() const;
 
 };
 

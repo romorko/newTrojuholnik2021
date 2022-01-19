@@ -9,7 +9,7 @@ int main()
     ABC.vypisUhly();
     cout<<"Ortocentrum:"<<ABC.getOrtocentrum()<<endl;
     cout<<"Tazisko:"<<ABC.getTazisko()<<endl;
-
+    ABC.vypisOpisanaKruznica();
         /*   Priamka priamka1= Priamka({4,2},{-6,2});
        Priamka priamka2 = Priamka ({4,2},{-1,10.66});
        cout<<priamka1.getUhol(priamka2,'s')<<std::endl;

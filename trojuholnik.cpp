@@ -608,5 +608,39 @@ Bod Trojuholnik::getTazisko() const
     return getTaznica('a').getPoloha(getTaznica('b')).getBodPriesecnika();
 }
 
+Priamka Trojuholnik::getOsStrany(char ktoraStrana) const
+{
+    Bod Stred; //stred strany
+    Bod Druhy; //druhy bod na osi ako sucet stredu a smeroveho vektora osi
+    if(ktoraStrana=='a')
+    {
+        Stred = B.getCenter(C);
+        Druhy = Stred+Priamka(B,C).getNormalovy();
+    }
+    else if(ktoraStrana=='b')
+    {
+        Stred = A.getCenter(C);
+        Druhy = Stred+Priamka(A,C).getNormalovy();
+    }
+    else if(ktoraStrana=='c')
+    {
+        Stred = A.getCenter(B);
+        Druhy = Stred+Priamka(A,B).getNormalovy();
+    }
+    else
+    {
+        std::cout<<"Takato strana neexistuje!";
+    }
+    return Priamka(Stred,Druhy);
+}
+
+void Trojuholnik::vypisOpisanaKruznica() const
+{
+    Bod StredKruznice = getOsStrany('a').getPoloha(getOsStrany('b')).getBodPriesecnika();
+    float polomerKruznice = StredKruznice.getDistance(A);
+    using namespace inout; //aby som mohol pouzivat formatovacie znaky
+    cout<<"(x "<<showpos<<StredKruznice.getX()<<")^2 +"<<"(y"<<showpos<<StredKruznice.getY()<<")^2 ="<<noshowpos<<polomerKruznice*polomerKruznice;
+}
+
 
 
