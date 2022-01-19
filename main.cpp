@@ -3,12 +3,13 @@
 int main()
 {
     using namespace inout;
-    //Priamka moja({1,2},{1,2});
     Trojuholnik ABC({1,1},{5,1},{8,6});
     cout<<setprecision(4)<<"Obvod: "<<ABC.getObvod()<<endl<<"Obsah: "<<ABC.getObsah()<<endl;
     ABC.vypisStrany();
     ABC.vypisUhly();
-    cout<<ABC.getOrtocentrum();
+    cout<<"Ortocentrum:"<<ABC.getOrtocentrum()<<endl;
+    cout<<"Tazisko:"<<ABC.getTazisko()<<endl;
+
         /*   Priamka priamka1= Priamka({4,2},{-6,2});
        Priamka priamka2 = Priamka ({4,2},{-1,10.66});
        cout<<priamka1.getUhol(priamka2,'s')<<std::endl;

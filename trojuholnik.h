@@ -140,6 +140,7 @@ public:
     Priamka getVyska(char naStranu='a') const;
     Priamka getTaznica(char naStranu='a') const;
     Bod getOrtocentrum() const;
+    Bod getTazisko() const;
 
 };
 

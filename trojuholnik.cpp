@@ -579,7 +579,33 @@ Bod Trojuholnik::getOrtocentrum() const
 
 Priamka Trojuholnik::getTaznica(char naStranu) const
 {
-    return Priamka();
+    Bod Stred; //stred strany
+    Bod Vrchol; //smerovy vektor taznice
+    if(naStranu=='a')
+    {
+        Stred = B.getCenter(C);
+        Vrchol = A;
+    }
+    else if(naStranu=='b')
+    {
+        Stred = A.getCenter(C);
+        Vrchol = B;
+    }
+    else if(naStranu=='c')
+    {
+        Stred = A.getCenter(B);
+        Vrchol = C;
+    }
+    else
+    {
+        std::cout<<"Neznama strana";
+    }
+    return Priamka(Stred,Vrchol);
+}
+
+Bod Trojuholnik::getTazisko() const
+{
+    return getTaznica('a').getPoloha(getTaznica('b')).getBodPriesecnika();
 }
 
 
