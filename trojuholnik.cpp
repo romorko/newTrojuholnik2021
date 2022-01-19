@@ -639,7 +639,7 @@ void Trojuholnik::vypisOpisanaKruznica() const
     Bod StredKruznice = getOsStrany('a').getPoloha(getOsStrany('b')).getBodPriesecnika();
     float polomerKruznice = StredKruznice.getDistance(A);
     using namespace inout; //aby som mohol pouzivat formatovacie znaky
-    cout<<"(x "<<showpos<<StredKruznice.getX()<<")^2 +"<<"(y"<<showpos<<StredKruznice.getY()<<")^2 ="<<noshowpos<<polomerKruznice*polomerKruznice;
+    cout<<"(x "<<showpos<<(-1)*StredKruznice.getX()<<")^2 +"<<"(y"<<showpos<<(-1)*StredKruznice.getY()<<")^2 ="<<noshowpos<<polomerKruznice*polomerKruznice;
 }
 
 
