@@ -74,7 +74,7 @@ public:
     bool operator==(const Priamka & other) const;
     virtual Vektor getSmerovy() const;
     virtual Vektor getNormalovy() const;
-    Priamka getOsStrany() const;
+    Priamka getOsUsecky() const;
     Priesecnik getPoloha(const Priamka & other) const;
     Priamka getOsUhla(const Priamka & other)const;
     float getUhol(const Priamka & other,char vrat='s') const; //vrati velkost uhla priamok bud v stupnoch(s) alebo radianoch (r)
@@ -143,6 +143,7 @@ public:
     Bod getOrtocentrum() const;
     Bod getTazisko() const;
     void vypisOpisanaKruznica() const;
+    void vypisVpisanaKruznica() const;
 
 };
 

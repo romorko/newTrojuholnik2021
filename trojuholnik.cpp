@@ -194,7 +194,7 @@ Vektor Priamka::getNormalovy() const
     //return Vektor (smerovy.getY()*(-1),smerovy.getX());
 }
 
-Priamka Priamka::getOsStrany() const
+Priamka Priamka::getOsUsecky() const
 {
     Bod stred = getStred();
     return {stred, stred + getNormalovy()};
@@ -610,36 +610,43 @@ Bod Trojuholnik::getTazisko() const
 
 Priamka Trojuholnik::getOsStrany(char ktoraStrana) const
 {
-    Bod Stred; //stred strany
-    Bod Druhy; //druhy bod na osi ako sucet stredu a smeroveho vektora osi
     if(ktoraStrana=='a')
     {
-        Stred = B.getCenter(C);
-        Druhy = Stred+Priamka(B,C).getNormalovy();
+        return Priamka(B, C).getOsUsecky();
     }
     else if(ktoraStrana=='b')
     {
-        Stred = A.getCenter(C);
-        Druhy = Stred+Priamka(A,C).getNormalovy();
+        return Priamka(A, C).getOsUsecky();
     }
     else if(ktoraStrana=='c')
     {
-        Stred = A.getCenter(B);
-        Druhy = Stred+Priamka(A,B).getNormalovy();
+        return Priamka(A, B).getOsUsecky();
     }
     else
     {
         std::cout<<"Takato strana neexistuje!";
     }
-    return Priamka(Stred,Druhy);
+    return Priamka();
 }
 
 void Trojuholnik::vypisOpisanaKruznica() const
 {
-    Bod StredKruznice = getOsStrany('a').getPoloha(getOsStrany('b')).getBodPriesecnika();
-    float polomerKruznice = StredKruznice.getDistance(A);
+    Bod stredKruznice = getOsStrany('a').getPoloha(getOsStrany('b')).getBodPriesecnika();
+    float polomerKruznice = stredKruznice.getDistance(A);
     using namespace inout; //aby som mohol pouzivat formatovacie znaky
-    cout<<"(x "<<showpos<<(-1)*StredKruznice.getX()<<")^2 +"<<"(y"<<showpos<<(-1)*StredKruznice.getY()<<")^2 ="<<noshowpos<<polomerKruznice*polomerKruznice;
+    cout << "Opisana kruznica: " << "(x " << showpos << (-1) * stredKruznice.getX() << ")^2 +" << "(y" << showpos << (-1) * stredKruznice.getY() << ")^2 =" << noshowpos << polomerKruznice * polomerKruznice<<endl;
+}
+
+void Trojuholnik::vypisVpisanaKruznica() const
+{
+    Bod stredKruznice = Priamka(A,B).getOsUhla(Priamka(B,C)).getPoloha(Priamka(B,C).getOsUhla(Priamka(C,A))).getBodPriesecnika();
+    std::cout<<(VR)Priamka(A,B).getOsUhla(Priamka(B,C))<<(VR)Priamka(B,C).getOsUhla(Priamka(C,A))<<stredKruznice<<std::endl;
+    //vypocet vzdialenosti stredu od strany AB
+    Priamka kolmicaCezStred(stredKruznice,stredKruznice+Priamka(A,B).getNormalovy());
+    Bod bodNaStrane = Priamka(A,B).getPoloha(kolmicaCezStred).getBodPriesecnika();
+    float polomerKruznice = stredKruznice.getDistance(bodNaStrane);
+    using namespace inout;
+    cout << "Vpisana kruznica: " << "(x " << showpos << (-1) * stredKruznice.getX() << ")^2 +" << "(y" << showpos << (-1) * stredKruznice.getY() << ")^2 =" << noshowpos << polomerKruznice * polomerKruznice<<endl;
 }
 
 
