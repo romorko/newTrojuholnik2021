@@ -340,7 +340,7 @@ VR::VR(const Priamka &P) : Priamka(P)
 std::ostream &operator<<(std::ostream &os, const VR &other)
 {
     using namespace inout;
-    os << "Vseobecna rovnica:" << setw(4) << setprecision(2) << other[0] << "x" << std::showpos << setw(4) << other[1]
+    os << "Vseobecna rovnica:" << setw(4) << setprecision(3) << other[0] << "x" << std::showpos << setw(4) << other[1]
        << "y" << std::showpos << setw(4) << other[2] << " = 0" << endl;
     return os;
 }
@@ -423,6 +423,7 @@ std::ostream &operator<<(std::ostream &os, const Priamka::Priesecnik &other)
 Priamka Priamka::getOsUhla(const Priamka &other) const
 {
     Bod prvyBod = this->getPoloha(other).getBodPriesecnika();
+    //std::cout<<"Priesecnik kontrola "<<prvyBod;
     Vektor vektor1 = this->getSmerovy().getJednotkovy();
     //std::cout<<"Smerovy "<<this->getSmerovy()<<" jednotkovy"<<vektor1<<std::endl;
     Vektor vektor2 = other.getSmerovy().getJednotkovy();
@@ -639,8 +640,7 @@ void Trojuholnik::vypisOpisanaKruznica() const
 
 void Trojuholnik::vypisVpisanaKruznica() const
 {
-    Bod stredKruznice = Priamka(A,B).getOsUhla(Priamka(B,C)).getPoloha(Priamka(B,C).getOsUhla(Priamka(C,A))).getBodPriesecnika();
-    std::cout<<(VR)Priamka(A,B).getOsUhla(Priamka(B,C))<<(VR)Priamka(B,C).getOsUhla(Priamka(C,A))<<stredKruznice<<std::endl;
+    Bod stredKruznice = Priamka(B,A).getOsUhla(Priamka(B,C)).getPoloha(Priamka(C,B).getOsUhla(Priamka(C,A))).getBodPriesecnika();
     //vypocet vzdialenosti stredu od strany AB
     Priamka kolmicaCezStred(stredKruznice,stredKruznice+Priamka(A,B).getNormalovy());
     Bod bodNaStrane = Priamka(A,B).getPoloha(kolmicaCezStred).getBodPriesecnika();
