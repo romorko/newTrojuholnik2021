@@ -94,6 +94,8 @@ void Bod::vypisPoleBodov(int pocetBodov, Bod *poleBodov)
 int Bod::cmp(const void *prvy, const void *druhy)
 {
     Bod *A = (Bod *) prvy;
+    //const Bod *A = static_cast<const Bod *>(prvy);
+    //const Bod *B = static_cast<const Bod *>(druhy);
     Bod *B = (Bod *) druhy;
     //return ((float)(*A)<(float)(*B))?1:((float)(*A)>(float)(*B))?-1:0;
     return ((*A) < (*B)) ? -1 : ((*A) > (*B)) ? 1 : 0;
@@ -136,7 +138,7 @@ Bod Bod::getJednotkovy() const
     return {this->x / this->getDistance(), this->y / this->getDistance()};
 }
 
-bool Bod::operator==(const Bod &other)
+bool Bod::operator==(const Bod &other) const
 {
     return (x==other.x && y==other.y);
 }
@@ -165,10 +167,9 @@ Priamka::Priamka(Bod A, Bod B):X(A),Y(B)
     }
 }
 
-Priamka::Priamka(Bod A):X(A)
+Priamka::Priamka(Bod A):X(A),Y({A.getX()+1,A.getY()})
 {
     std::cout<<"Jeden bod neurcuje priamku. Bola vytvorena implicitna priamka iduca tymto bodom rovnobezna s osou x\n";
-    Y={A.getX()+1,A.getY()};
 }
 
 Bod Priamka::getStred() const
@@ -379,23 +380,23 @@ Bod VR::vypocitajBod(float a, float b, float c) const
     float intpart;
     if (b != 0)
     {
-        float vysledok = (-c - a * p) / b;
+        float vysledok = (-c - a * (float)p) / b;
         while (p < 10 && std::modf(vysledok, &intpart) != 0)
         {
             ++p;
             //std::cout<<p<<" ";
-            vysledok = (-c - a * p) / b;
+            vysledok = (-c - a * (float)p) / b;
         }
-        return Bod(p, vysledok);
+        return {(float)p, vysledok};
     } else
     {
-        float vysledok = (-c - b * p) / a;
+        float vysledok = (-c - b * (float)p) / a;
         while (p < 10 && std::modf(vysledok, &intpart) != 0)
         {
             ++p;
-            vysledok = (-c - b * p) / a;;
+            vysledok = (-c - b * (float)p) / a;
         }
-        return Bod(vysledok, p);
+        return {vysledok, (float)p};
     }
 }
 
@@ -601,7 +602,7 @@ Priamka Trojuholnik::getTaznica(char naStranu) const
     {
         std::cout<<"Neznama strana";
     }
-    return Priamka(Stred,Vrchol);
+    return {Stred,Vrchol};
 }
 
 Bod Trojuholnik::getTazisko() const
@@ -647,6 +648,20 @@ void Trojuholnik::vypisVpisanaKruznica() const
     float polomerKruznice = stredKruznice.getDistance(bodNaStrane);
     using namespace inout;
     cout << "Vpisana kruznica: " << "(x " << showpos << (-1) * stredKruznice.getX() << ")^2 +" << "(y" << showpos << (-1) * stredKruznice.getY() << ")^2 =" << noshowpos << polomerKruznice * polomerKruznice<<endl;
+}
+
+void Trojuholnik::vypisEulerovuPriamku() const
+{
+    std::cout<<(VR)Priamka(getTazisko(),getOrtocentrum());
+}
+
+void Trojuholnik::vypiskruznicuDeviatichBodov() const
+{
+    Bod X = A.getCenter(B);
+    Bod Y = B.getCenter(C);
+    Bod Z = C.getCenter(A);
+    Trojuholnik XYZ(X,Y,Z);
+    XYZ.vypisOpisanaKruznica();
 }
 
 

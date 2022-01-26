@@ -23,7 +23,7 @@ public:
     float operator*(const Bod & other) const;//skalarny sucin vektorov
     bool operator<(const Bod & other);
     bool operator>(const Bod & other);
-    bool operator==(const Bod & other);
+    bool operator==(const Bod & other) const;
     Bod operator^(const Bod & other) const; //pretazeny operator strieska na vypocet stredu usecky
     explicit operator float() const;  //pretazeny operator konverzie na float, ktory vrati vzdialenost od [0,0]
     friend Bod operator*(float k, const Bod &other);
@@ -144,6 +144,8 @@ public:
     Bod getTazisko() const;
     void vypisOpisanaKruznica() const;
     void vypisVpisanaKruznica() const;
+    void vypisEulerovuPriamku() const;
+    void vypiskruznicuDeviatichBodov()const;
 
 };
 
