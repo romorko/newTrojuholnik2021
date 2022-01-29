@@ -127,10 +127,10 @@ private:
     Bod C;
 public:
     Trojuholnik():A({-1,0}),B({1,0}),C({0,1}){}; //vytvori implicitny trojuholnik [-1,0],[1,0],[0,1]
-    Trojuholnik(Bod A1, Bod B1, Bod C1);//vytvori trojuholnik z troch bodov
+    Trojuholnik(Bod A1, Bod B1, Bod C1,bool info=true);//vytvori trojuholnik z troch bodov
     Trojuholnik(Priamka a, Priamka b, Priamka c);//vytvori trojuholnik z troch priamok
     friend std::ostream & operator<<(std::ostream & os,const Trojuholnik &other);
-    bool existuje() const; //zisti, ci tri body A,B,C urcuju trojuholnik
+    bool existuje(bool info=true) const; //zisti, ci tri body A,B,C urcuju trojuholnik
     float getVelkostStrany(char strana='a') const;
     float getVelkostUhla(char uhol='a') const; //a=alfa b=beta c=gama
     float getObvod() const;
@@ -142,10 +142,10 @@ public:
     Priamka getOsStrany(char ktoraStrana='a') const;
     Bod getOrtocentrum() const;
     Bod getTazisko() const;
-    void vypisOpisanaKruznica() const;
+    void vypisOpisanaKruznica(const char * text ="Opisana kruznica") const;
     void vypisVpisanaKruznica() const;
     void vypisEulerovuPriamku() const;
-    void vypiskruznicuDeviatichBodov()const;
+    void vypiskruznicuDeviatichBodov()  const;
 
 };
 

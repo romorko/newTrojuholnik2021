@@ -434,15 +434,15 @@ Priamka Priamka::getOsUhla(const Priamka &other) const
     return {prvyBod, druhyBod};
 }
 
-Trojuholnik::Trojuholnik(Bod A1, Bod B1, Bod C1):A(A1),B(B1),C(C1)
+Trojuholnik::Trojuholnik(Bod A1, Bod B1, Bod C1,bool info):A(A1),B(B1),C(C1)
 {
-    if(!existuje())
+    if(!existuje(info))
     {
         exit(1);
     }
 }
 
-bool Trojuholnik::existuje() const
+bool Trojuholnik::existuje(bool info) const
 {
     float a=A.getDistance(B);
     float b=A.getDistance(C);
@@ -459,7 +459,11 @@ bool Trojuholnik::existuje() const
         std::cout<<ex.what();
         return false;
     }
-    std::cout<<"Trojuholnik "<<*this<<" OK"<<std::endl;
+    if(info==true)
+    {
+        std::cout<<"Trojuholnik "<<*this<<" OK"<<std::endl;
+    }
+
     return true;
 }
 
@@ -631,12 +635,12 @@ Priamka Trojuholnik::getOsStrany(char ktoraStrana) const
     return Priamka();
 }
 
-void Trojuholnik::vypisOpisanaKruznica() const
+void Trojuholnik::vypisOpisanaKruznica(const char *text) const
 {
     Bod stredKruznice = getOsStrany('a').getPoloha(getOsStrany('b')).getBodPriesecnika();
     float polomerKruznice = stredKruznice.getDistance(A);
     using namespace inout; //aby som mohol pouzivat formatovacie znaky
-    cout << "Opisana kruznica: " << "(x " << showpos << (-1) * stredKruznice.getX() << ")^2 +" << "(y" << showpos << (-1) * stredKruznice.getY() << ")^2 =" << noshowpos << polomerKruznice * polomerKruznice<<endl;
+    cout << text << "(x " << showpos << (-1) * stredKruznice.getX() << ")^2 +" << "(y" << showpos << (-1) * stredKruznice.getY() << ")^2 =" << noshowpos << polomerKruznice * polomerKruznice<<endl;
 }
 
 void Trojuholnik::vypisVpisanaKruznica() const
@@ -652,7 +656,7 @@ void Trojuholnik::vypisVpisanaKruznica() const
 
 void Trojuholnik::vypisEulerovuPriamku() const
 {
-    std::cout<<(VR)Priamka(getTazisko(),getOrtocentrum());
+    std::cout<<"Eulerova priamka. "<<(VR)Priamka(getTazisko(),getOrtocentrum());
 }
 
 void Trojuholnik::vypiskruznicuDeviatichBodov() const
@@ -660,8 +664,8 @@ void Trojuholnik::vypiskruznicuDeviatichBodov() const
     Bod X = A.getCenter(B);
     Bod Y = B.getCenter(C);
     Bod Z = C.getCenter(A);
-    Trojuholnik XYZ(X,Y,Z);
-    XYZ.vypisOpisanaKruznica();
+    Trojuholnik XYZ(X,Y,Z,false);
+    XYZ.vypisOpisanaKruznica("Kruznica deviatich bodov: ");
 }
 
 
